@@ -8,28 +8,28 @@ script = ExtResource("2_y4oc8")
 name = "Location"
 corner_1 = Vector2(-68, -44)
 corner_2 = Vector2(-32, -8)
-exhibits = PackedStringArray("Inkadia", "Inkopolis", "Octo Valley (location)", "Octo Canyon (location)", "Deepsea Metro", "Spawning Grounds", "The Splatlands", " Alterna", "Order Sector")
+exhibits = PackedStringArray("Inkadia", "Inkopolis", "Octo Valley (location)", "Octo Canyon (location)", "Deepsea Metro", "Spawning Grounds", "The Splatlands", "Alterna", "Order Sector", "Calamari County", "Mount Nantai", "Splatsville", "Deca Tower", "Train station", "Ammo Knights", "Booyah Base", "Galleria", "The Shoal", "Inkopolis Tower", "Memverse")
 
 [sub_resource type="Resource" id="Resource_ooopd"]
 script = ExtResource("2_y4oc8")
 name = "Character"
 corner_1 = Vector2(32, -44)
 corner_2 = Vector2(68, -8)
-exhibits = PackedStringArray("Captain", "Agent 4", "Agent 8", "Agent 3", "Callie", "Marie", "Pearl", "Marina", "Shiver", "Frye", "Big Man", "Smallfry", "Craig Cuttlefish", "DJ Octavio", "C.Q. Cumber", "Acht", "Judd", "Li'l Judd", "Iso Padre", "O.R.C.A.", "Commander Tartar", "Mr. Grizz", "Order")
+exhibits = PackedStringArray("Captain", "Agent 4", "Agent 8", "Agent 3", "Callie", "Marie", "Pearl", "Marina", "Shiver", "Frye", "Big Man", "Smallfry", "Craig Cuttlefish", "DJ Octavio", "C.Q. Cumber", "Acht", "Judd", "Li'l Judd", "Iso Padre", "O.R.C.A.", "Commander Tartar", "Mr. Grizz")
 
 [sub_resource type="Resource" id="Resource_m2ope"]
 script = ExtResource("2_y4oc8")
 name = "Event"
 corner_1 = Vector2(-44, -92)
 corner_2 = Vector2(-8, -36)
-exhibits = PackedStringArray("Splatfest", "Big Run", "Eggstra Work", "Challenge")
+exhibits = PackedStringArray("Splatfest", "Big Run", "Eggstra Work", "Challenge", "Splatfest Battle", "Tricolor Battle", "Special Splatfest", "Clout", "List of Splatfests in Splatoon", "List of Splatfests in Splatoon 2", "List of Splatfests in Splatoon 3", "Grand Splatlands Bowl", "Great Turf War", "Season", "Inkopolis News", "Chill Season 2022", "Drizzle Season 2022", "Fresh Season 2023", "Sizzle Season 2023", "Art Battle for the Ages", "New Season Challenge", "Oh My Gush", "Swim It to Win It", "Extreme Jump Battle")
 
 [sub_resource type="Resource" id="Resource_opuc1"]
 script = ExtResource("2_y4oc8")
 name = "Gear"
 corner_1 = Vector2(8, -92)
 corner_2 = Vector2(44, -36)
-exhibits = PackedStringArray("Gear ability", "Gear brand", "Promotional gear", "Adjust Gear", "SquidForce", "Annaki", "Barazushi", "Emberz", "Enperry", "Firefin", "Forge", "Inkline", "Krak-On", "Rockenberg", "Skalop", "Splash Mob", "Takoroka", "Tentatek", "The SQUID GIRL", "Toni Kensa", "Zekko", "Zink")
+exhibits = PackedStringArray("Gear ability", "Gear brand", "Promotional gear", "Adjust Gear", "SquidForce", "Annaki", "Barazushi", "Emberz", "Enperry", "Firefin", "Forge", "Inkline", "Krak-On", "Rockenberg", "Skalop", "Splash Mob", "Takoroka", "Tentatek", "The SQUID GIRL", "Toni Kensa", "Zekko", "Zink", "Z+F", "KOG")
 
 [sub_resource type="Resource" id="Resource_qiy1c"]
 script = ExtResource("2_y4oc8")
@@ -43,7 +43,7 @@ script = ExtResource("2_y4oc8")
 name = "Music"
 corner_1 = Vector2(36, 12)
 corner_2 = Vector2(72, 48)
-exhibits = PackedStringArray("Live performances", "Splatune,", "Splatoon Live in Makuhari", "Splatune 2", "Octotune", "Splatoon 2 Live in Makuhari", "Splatune 3", "Ordertune", "Squid Squad", "Chirpy Chips", "Hightide Era", "Turquoise October", "Wet Floor", "Ink Theory", "ω-3", "SashiMori", "C-Side", "Front Roe")
+exhibits = PackedStringArray("Live performances", "Splatune,", "Splatoon Live in Makuhari", "Splatune 2", "Octotune", "Splatoon 2 Live in Makuhari", "Splatune 3", "Ordertune", "Squid Squad", "Chirpy Chips", "Hightide Era", "Turquoise October", "Wet Floor", "Ink Theory", "ω-3", "SashiMori", "C-Side", "Front Roe", "Yoko & the Gold Bazookas")
 
 [sub_resource type="Resource" id="Resource_bycfx"]
 script = ExtResource("2_y4oc8")
@@ -57,7 +57,7 @@ script = ExtResource("2_y4oc8")
 name = "Weapon"
 corner_1 = Vector2(12, 60)
 corner_2 = Vector2(48, 96)
-exhibits = PackedStringArray("Main weapon", "Sub weapon", "Special weapon", "Shooter", "Roller", "Charger", "Slosher (weapon class)", "Splatling", "Dualie", "Brella", "Blaster (weapon class)", "Brush", "Stringer", "Splatana", "Rare weapon")
+exhibits = PackedStringArray("Main weapon", "Sub weapon", "Special weapon", "Shooter", "Roller", "Charger", "Slosher (weapon class)", "Splatling", "Dualie", "Brella", "Blaster (weapon class)", "Brush", "Stringer", "Splatana", "Rare weapon", "Great Octoweapon", "Octobosses", "Rainmaker (weapon)")
 
 [resource]
 script = ExtResource("1_3ssej")
