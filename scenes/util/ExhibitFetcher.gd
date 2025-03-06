@@ -396,22 +396,20 @@ func _on_images_request_complete(res, ctx, caller_ctx):
         if info.has("*"):
           var text = info["*"]
 
-          var pattern = r"\|\s*(\w+)\s*=\s*(.+)"
+          var pattern = r"\|\s*(\w+)\s*=\s*(.*)"
           var regex = RegEx.new()
           regex.compile(pattern)
 
-          var result = regex.search(text)
+          var result = regex.search_all(text)
           if result:
             for match in result:
               var key = match.get_string(1).strip_edges()
               var value = match.get_string(2).strip_edges()
               
-              if key == "license":
-                var license = value
-                _set_page_field(file, "license_short_name", license)
-              if key == "description":
-                var description = value
-                _set_page_field(file, "artist", description)
+              if key == "source" and value != "":
+                _set_page_field(file, "license_short_name", value)
+              if key == "description" and value != "":
+                _set_page_field(file, "artist", value)
       for info in page.imageinfo:
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
@@ -439,22 +437,20 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
         if info.has("*"):
           var text = info["*"]
 
-          var pattern = r"\|\s*(\w+)\s*=\s*(.+)"
+          var pattern = r"\|\s*(\w+)\s*=\s*(.*)"
           var regex = RegEx.new()
           regex.compile(pattern)
 
-          var result = regex.search(text)
+          var result = regex.search_all(text)
           if result:
             for match in result:
               var key = match.get_string(1).strip_edges()
               var value = match.get_string(2).strip_edges()
               
-              if key == "license":
-                var license = value
-                _set_page_field(file, "license_short_name", license)
-              if key == "description":
-                var description = value
-                _set_page_field(file, "artist", description)
+              if key == "source" and value != "":
+                _set_page_field(file, "license_short_name", value)
+              if key == "description" and value != "":
+                _set_page_field(file, "artist", value)
       for info in page.imageinfo:
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
