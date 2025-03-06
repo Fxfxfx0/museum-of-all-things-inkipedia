@@ -349,15 +349,6 @@ func _get_original_title(query, title):
         return t.from
   return title
 
-func _extract_template_value(text: String, key: String) -> String:
-    var pattern = key + r"\s*=\s*(.+)"
-    var regex = RegEx.new()
-    regex.compile(pattern)
-    var result = regex.search(text)
-    if result:
-        return result.get_string(1).strip_edges()
-    return ""
-
 func _on_wikitext_request_complete(res, ctx, caller_ctx):
   # store the information we did get
   if res.query.has("pages"):
@@ -401,20 +392,26 @@ func _on_images_request_complete(res, ctx, caller_ctx):
       var page = pages[page_id]
       var file = page.title
       file_batch.append(_get_original_title(res.query, file))
+      for info in page.revisions:
+        if info.has("*"):
+          var text = info["*"]
 
-      # Extract metadata from wikitext if revisions exist
-      if page.has("revisions"):
-        var text = page.revisions[0].get("content", "")
+          var pattern = r"\|\s*(\w+)\s*=\s*(.+)"
+          var regex = RegEx.new()
+          regex.compile(pattern)
 
-        var source = _extract_template_value(text, "source")
-        var description = _extract_template_value(text, "description")
-
-        if source:
-          _set_page_field(file, "license_short_name", source)
-        if description:
-          _set_page_field(file, "artist", description)
-
-      # Extract image thumbnail URL
+          var result = regex.search(text)
+          if result:
+            for match in result:
+              var key = match.get_string(1).strip_edges()
+              var value = match.get_string(2).strip_edges()
+              
+              if key == "licence":
+                var source = value
+                _set_page_field(file, "license_short_name", licence)
+              if key == "description":
+                var description = value
+                _set_page_field(file, "artist", description)
       for info in page.imageinfo:
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
@@ -438,17 +435,26 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
       var page = pages[page_id]
       var file = page.title
 
-      # Extract metadata from wikitext if revisions exist
-      if page.has("revisions"):
-        var text = page.revisions[0].get("content", "")
+      for info in page.revisions:
+        if info.has("*"):
+          var text = info["*"]
 
-        var source = _extract_template_value(text, "source")
-        var description = _extract_template_value(text, "description")
+          var pattern = r"\|\s*(\w+)\s*=\s*(.+)"
+          var regex = RegEx.new()
+          regex.compile(pattern)
 
-        if source:
-          _set_page_field(file, "license_short_name", source)
-        if description:
-          _set_page_field(file, "artist", description)
+          var result = regex.search(text)
+          if result:
+            for match in result:
+              var key = match.get_string(1).strip_edges()
+              var value = match.get_string(2).strip_edges()
+              
+              if key == "licence":
+                var source = value
+                _set_page_field(file, "license_short_name", licence)
+              if key == "description":
+                var description = value
+                _set_page_field(file, "artist", description)
       for info in page.imageinfo:
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
