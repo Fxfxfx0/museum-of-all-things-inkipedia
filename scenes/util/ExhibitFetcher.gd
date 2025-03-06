@@ -25,10 +25,11 @@ var random_endpoint = "https://splatoonwiki.org/w/api.php?action=query&format=js
 
 var wikitext_endpoint = "https://splatoonwiki.org/w/api.php?action=query&prop=revisions|extracts|pageprops&ppprop=wikibase_item&explaintext=true&rvprop=content&format=json&redirects=1&titles="
 var images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&prop=imageinfo|revisions&iiprop=extmetadata|url&iiurlwidth=640&iiextmetadatafilter=LicenseShortName|Artist&rvprop=content&format=json&redirects=1&titles="
-var wikidata_endpoint = "https://splatoonwiki.org/w/api.php?action=wbgetclaims&format=json&entity="
+var wikidata_endpoint = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&entity="
 
-var wikimedia_commons_category_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=categorymembers&gcmtype=file&gcmlimit=max&prop=imageinfo|revisions&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&rvprop=content&format=json&gcmtitle="
-var wikimedia_commons_gallery_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=images&gimlimit=max&prop=imageinfo|revisions&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&rvprop=content&format=json&titles="
+var wikimedia_commons_category_images_endpoint = "https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtype=file&gcmlimit=max&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&format=json&gcmtitle="
+var wikimedia_commons_gallery_images_endpoint = "https://commons.wikimedia.org/w/api.php?action=query&generator=images&gimlimit=max&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&format=json&titles="
+
 
 var _fs_lock = Mutex.new()
 var _results_lock = Mutex.new()
@@ -406,9 +407,10 @@ func _on_images_request_complete(res, ctx, caller_ctx):
               var key = match.get_string(1).strip_edges()
               var value = match.get_string(2).strip_edges()
               
-              if key == "source" and value != "":
+              if key == "game" and value != "":
                 _set_page_field(file, "license_short_name", value)
               if key == "description" and value != "":
+                value = value.replace("[", "").replace("]", "").replace("{", "").replace("}", "")
                 _set_page_field(file, "artist", value)
       for info in page.imageinfo:
         if info.has("thumburl"):
@@ -432,26 +434,15 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
     for page_id in pages.keys():
       var page = pages[page_id]
       var file = page.title
-
-      for info in page.revisions:
-        if info.has("*"):
-          var text = info["*"]
-
-          var pattern = r"\|\s*(\w+)\s*=\s*(.*)"
-          var regex = RegEx.new()
-          regex.compile(pattern)
-
-          var result = regex.search_all(text)
-          if result:
-            for match in result:
-              var key = match.get_string(1).strip_edges()
-              var value = match.get_string(2).strip_edges()
-              
-              if key == "source" and value != "":
-                _set_page_field(file, "license_short_name", value)
-              if key == "description" and value != "":
-                _set_page_field(file, "artist", value)
+      if not page.has("imageinfo"):
+        continue
       for info in page.imageinfo:
+        if info.has("extmetadata"):
+          var md = info.extmetadata
+          if md.has("LicenseShortName"):
+            _set_page_field(file, "license_short_name", md.LicenseShortName.value)
+          if md.has("Artist"):
+            _set_page_field(file, "artist", md.Artist.value)
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
         file_batch.append(file)
