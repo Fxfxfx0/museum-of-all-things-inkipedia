@@ -12,6 +12,7 @@ var ignore_sections = [
   "bibliography",
   "gallery",
   "sources",
+  "names in other languages",
 ]
 
 var IMAGE_REGEX = RegEx.new()
