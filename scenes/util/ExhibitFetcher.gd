@@ -406,9 +406,9 @@ func _on_images_request_complete(res, ctx, caller_ctx):
               var key = match.get_string(1).strip_edges()
               var value = match.get_string(2).strip_edges()
               
-              if key == "licence":
-                var source = value
-                _set_page_field(file, "license_short_name", licence)
+              if key == "license":
+                var license = value
+                _set_page_field(file, "license_short_name", license)
               if key == "description":
                 var description = value
                 _set_page_field(file, "artist", description)
@@ -449,9 +449,9 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
               var key = match.get_string(1).strip_edges()
               var value = match.get_string(2).strip_edges()
               
-              if key == "licence":
-                var source = value
-                _set_page_field(file, "license_short_name", licence)
+              if key == "license":
+                var license = value
+                _set_page_field(file, "license_short_name", license)
               if key == "description":
                 var description = value
                 _set_page_field(file, "artist", description)
