@@ -24,11 +24,11 @@ var search_endpoint = "https://splatoonwiki.org/w/api.php?action=query&format=js
 var random_endpoint = "https://splatoonwiki.org/w/api.php?action=query&format=json&generator=random&grnnamespace=0&prop=info"
 
 var wikitext_endpoint = "https://splatoonwiki.org/w/api.php?action=query&prop=revisions|extracts|pageprops&ppprop=wikibase_item&explaintext=true&rvprop=content&format=json&redirects=1&titles="
-var images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata|url&iiurlwidth=640&iiextmetadatafilter=LicenseShortName|Artist&format=json&redirects=1&titles="
-var wikidata_endpoint = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json&entity="
+var images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&prop=imageinfo|revisions&iiprop=extmetadata|url&iiurlwidth=640&iiextmetadatafilter=LicenseShortName|Artist&rvprop=content&format=json&redirects=1&titles="
+var wikidata_endpoint = "https://splatoonwiki.org/w/api.php?action=wbgetclaims&format=json&entity="
 
-var wikimedia_commons_category_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=categorymembers&gcmtype=file&gcmlimit=max&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&format=json&gcmtitle="
-var wikimedia_commons_gallery_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=images&gimlimit=max&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&format=json&titles="
+var wikimedia_commons_category_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=categorymembers&gcmtype=file&gcmlimit=max&prop=imageinfo|revisions&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&rvprop=content&format=json&gcmtitle="
+var wikimedia_commons_gallery_images_endpoint = "https://splatoonwiki.org/w/api.php?action=query&generator=images&gimlimit=max&prop=imageinfo|revisions&iiprop=url|extmetadata&iiurlwidth=640&iiextmetadatafilter=Artist|LicenseShortName&rvprop=content&format=json&titles="
 
 var _fs_lock = Mutex.new()
 var _results_lock = Mutex.new()
@@ -349,6 +349,15 @@ func _get_original_title(query, title):
         return t.from
   return title
 
+func _extract_template_value(text: String, key: String) -> String:
+    var pattern = key + r"\s*=\s*(.+)"
+    var regex = RegEx.new()
+    regex.compile(pattern)
+    var result = regex.search(text)
+    if result:
+        return result.get_string(1).strip_edges()
+    return ""
+
 func _on_wikitext_request_complete(res, ctx, caller_ctx):
   # store the information we did get
   if res.query.has("pages"):
@@ -391,16 +400,22 @@ func _on_images_request_complete(res, ctx, caller_ctx):
     for page_id in pages.keys():
       var page = pages[page_id]
       var file = page.title
-      if not page.has("imageinfo"):
-        continue
       file_batch.append(_get_original_title(res.query, file))
+
+      # Extract metadata from wikitext if revisions exist
+      if page.has("revisions"):
+        var text = page.revisions[0].get("content", "")
+
+        var source = _extract_template_value(text, "source")
+        var description = _extract_template_value(text, "description")
+
+        if source:
+          _set_page_field(file, "license_short_name", source)
+        if description:
+          _set_page_field(file, "artist", description)
+
+      # Extract image thumbnail URL
       for info in page.imageinfo:
-        if info.has("extmetadata"):
-          var md = info.extmetadata
-          if md.has("LicenseShortName"):
-            _set_page_field(file, "license_short_name", md.LicenseShortName.value)
-          if md.has("Artist"):
-            _set_page_field(file, "artist", md.Artist.value)
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
 
@@ -422,15 +437,19 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
     for page_id in pages.keys():
       var page = pages[page_id]
       var file = page.title
-      if not page.has("imageinfo"):
-        continue
+
+      # Extract metadata from wikitext if revisions exist
+      if page.has("revisions"):
+        var text = page.revisions[0].get("content", "")
+
+        var source = _extract_template_value(text, "source")
+        var description = _extract_template_value(text, "description")
+
+        if source:
+          _set_page_field(file, "license_short_name", source)
+        if description:
+          _set_page_field(file, "artist", description)
       for info in page.imageinfo:
-        if info.has("extmetadata"):
-          var md = info.extmetadata
-          if md.has("LicenseShortName"):
-            _set_page_field(file, "license_short_name", md.LicenseShortName.value)
-          if md.has("Artist"):
-            _set_page_field(file, "artist", md.Artist.value)
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
         file_batch.append(file)
