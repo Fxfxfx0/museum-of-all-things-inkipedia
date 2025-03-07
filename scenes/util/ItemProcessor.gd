@@ -12,7 +12,14 @@ var ignore_sections = [
   "bibliography",
   "gallery",
   "sources",
+  "strategy",
   "names in other languages",
+  "data",
+  "quotes",
+  "badges",
+  "internal names",
+  "songs",
+  "gear",
 ]
 
 var IMAGE_REGEX = RegEx.new()
@@ -50,7 +57,7 @@ func _ready():
   nl_re.compile("\n+")
   alt_re.compile("alt=(.+?)\\|")
   #image_field_re.compile("(photo|image\\|?)[^_\\|]*?=(.+?)(\\||$)")
-  image_field_re.compile("[\\|=]\\s*([^\\n|=]+\\.\\w{,4})")
+  image_field_re.compile("[\\|=]\\s*([^\\n|=()]+\\.\\w{,4})")
   #image_field_re.compile("photo")
   tokenizer.compile("[^\\{\\}\\[\\]<>]+|[\\{\\}\\[\\]<>]")
   image_name_re.compile("^([iI]mage:|[fF]ile:)")
@@ -141,6 +148,39 @@ func _create_text_items(title, extract):
 
   return items
 
+func _extract_gallery_links(wikitext):
+    var gallery_files = []
+    var caption_links = []
+    var gallery_regex = RegEx.new()
+    gallery_regex.compile("<gallery[^>]*>([\\s\\S]*?)<\\/gallery>")
+    var results = gallery_regex.search_all(wikitext)
+    for res in results:
+        var gallery_content = res.get_string(1)
+        var lines = gallery_content.split("\n")
+        for line in lines:
+            line = line.strip_edges()
+            if line == "":
+                continue
+            var pipe_index = line.find("|")
+            var file_link = line.substr(0, pipe_index) if pipe_index != -1 else line
+            var caption = line.substr(pipe_index + 1, line.length()) if pipe_index != -1 else ""
+            if not file_link.begins_with("File:") and not file_link.begins_with("Image:"):
+                file_link = "File:" + file_link
+            gallery_files.append(file_link)
+            
+            if caption != "":
+                var wikilink_regex = RegEx.new()
+                wikilink_regex.compile("\\[\\[([^\\]]+)\\]\\]")
+                var link_results = wikilink_regex.search_all(caption)
+                for link_res in link_results:
+                    var link_text = link_res.get_string(1)
+                    var pipe_in_link = link_text.find("|")
+                    if pipe_in_link != -1:
+                        link_text = link_text.substr(0, pipe_in_link)
+                    if not link_text.begins_with("File:") and not link_text.begins_with("Image:"):
+                        caption_links.append(link_text)
+    return {"gallery_files": gallery_files, "caption_links": caption_links}
+
 func _wikitext_to_extract(wikitext):
   wikitext = template_re.sub(wikitext, "", true)
   wikitext = links_re.sub(wikitext, "$2", true)
@@ -151,7 +191,7 @@ func _wikitext_to_extract(wikitext):
   wikitext = nl_re.sub(wikitext, "\n", true)
   return wikitext.strip_edges()
 
-func _parse_wikitext(wikitext):
+func _parse_wikitext(wikitext, caption_links):
   var tokens = tokenizer.search_all(wikitext)
   var link = ""
   var links = []
@@ -226,6 +266,9 @@ func _parse_wikitext(wikitext):
         html.clear()
         html_tag = null
       tag = ""
+    
+  for caption_link in caption_links:
+    links.append(["link", caption_link])
 
   return links
 
@@ -268,9 +311,24 @@ func _create_items(title, result, prev_title):
 
   if result and result.has("wikitext") and result.has("extract"):
     var wikitext = result.wikitext
-
+    
+    var gallery_data = _extract_gallery_links(wikitext)
+    var gallery_files = gallery_data["gallery_files"]
+    var caption_links = gallery_data["caption_links"]
+    
+    for file_link in gallery_files:
+      var target = _to_link_case(file_link)
+      if IMAGE_REGEX.search(target):
+        image_items.append({
+          "type": "image",
+          "material": material,
+          "plate": plate,
+          "title": target,
+          "text": _clean_filename(target),
+        })
+    
     Util.t_start()
-    var links = _parse_wikitext(wikitext)
+    var links = _parse_wikitext(wikitext, caption_links)
     Util.t_end("_parse_wikitext")
 
     # we are using the extract returned from API until my parser works better
@@ -312,6 +370,10 @@ func _create_items(title, result, prev_title):
             })
 
       elif type == "link" and target and target.find(":") < 0:
+    # Skip if the target ends with a common image extension
+        if target.to_lower().ends_with(".jpg") or target.to_lower().ends_with(".png") or target.to_lower().ends_with(".gif") or target.to_lower().ends_with(".jpeg") or target.to_lower().ends_with(".svg") or target.to_lower().ends_with(".webp"):
+            continue
+
         var door = _to_link_case(target.get_slice("#", 0))
         if not doors_used.has(door) and door != title and door != prev_title and len(door) > 0:
           doors.append(door)
