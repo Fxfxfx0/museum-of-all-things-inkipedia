@@ -410,7 +410,7 @@ func _on_images_request_complete(res, ctx, caller_ctx):
               if key == "game" and value != "":
                 _set_page_field(file, "license_short_name", value)
               if key == "description" and value != "":
-                value = value.replace("[", "").replace("]", "").replace("{", "").replace("}", "")
+                value = value.replace("[", "").replace("]", "").replace("{", "").replace("}", "").replace("''", "").replace(":File:", "File:").replace("\"", "").replace("|", "/")
                 _set_page_field(file, "artist", value)
       for info in page.imageinfo:
         if info.has("thumburl"):
@@ -434,15 +434,26 @@ func _on_commons_images_request_complete(res, ctx, caller_ctx):
     for page_id in pages.keys():
       var page = pages[page_id]
       var file = page.title
-      if not page.has("imageinfo"):
-        continue
+      for info in page.revisions:
+        if info.has("*"):
+          var text = info["*"]
+
+          var pattern = r"\|\s*(\w+)\s*=\s*(.*)"
+          var regex = RegEx.new()
+          regex.compile(pattern)
+
+          var result = regex.search_all(text)
+          if result:
+            for match in result:
+              var key = match.get_string(1).strip_edges()
+              var value = match.get_string(2).strip_edges()
+              
+              if key == "game" and value != "":
+                _set_page_field(file, "license_short_name", value)
+              if key == "description" and value != "":
+                value = value.replace("[", "").replace("]", "").replace("{", "").replace("}", "").replace("''", "").replace(":File:", "File:").replace("\"", "").replace("|", "/")
+                _set_page_field(file, "artist", value)
       for info in page.imageinfo:
-        if info.has("extmetadata"):
-          var md = info.extmetadata
-          if md.has("LicenseShortName"):
-            _set_page_field(file, "license_short_name", md.LicenseShortName.value)
-          if md.has("Artist"):
-            _set_page_field(file, "artist", md.Artist.value)
         if info.has("thumburl"):
           _set_page_field(file, "src", info.thumburl)
         file_batch.append(file)
