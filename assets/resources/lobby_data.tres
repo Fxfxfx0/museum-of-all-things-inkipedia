@@ -8,56 +8,56 @@ script = ExtResource("2_y4oc8")
 name = "Location"
 corner_1 = Vector2(-68, -44)
 corner_2 = Vector2(-32, -8)
-exhibits = PackedStringArray("Inkadia", "Inkopolis", "Octo Valley (location)", "Octo Canyon (location)", "Deepsea Metro", "Spawning Grounds", "The Splatlands", "Alterna", "Order Sector", "Calamari County", "Mount Nantai", "Splatsville", "Deca Tower", "Train station", "Ammo Knights", "Booyah Base", "Galleria", "The Shoal", "Inkopolis Tower", "Memverse")
+exhibits = PackedStringArray("Inkadia", "Inkopolis", "Octo Valley (location)", "Octo Canyon (location)", "Deepsea Metro", "Spawning Grounds", "The Splatlands", "Alterna", "Order Sector", "Mount Nantai", "Splatsville", "Deca Tower", "Train station", "Ammo Knights", "Booyah Base", "Galleria", "The Shoal", "Memverse")
 
 [sub_resource type="Resource" id="Resource_ooopd"]
 script = ExtResource("2_y4oc8")
 name = "Character"
 corner_1 = Vector2(32, -44)
 corner_2 = Vector2(68, -8)
-exhibits = PackedStringArray("Captain", "Agent 4", "Agent 8", "Agent 3", "Callie", "Marie", "Pearl", "Marina", "Shiver", "Frye", "Big Man", "Smallfry", "Craig Cuttlefish", "DJ Octavio", "C.Q. Cumber", "Acht", "Judd", "Li'l Judd", "Iso Padre", "O.R.C.A.", "Commander Tartar", "Mr. Grizz")
+exhibits = PackedStringArray("Cuttlefish", "Agent 4", "Agent 8", "Agent 3 (Splatoon)", "Callie", "Marie", "Pearl", "Marina", "Shiver", "Frye", "Big Man", "DJ Octavio", "Deep Cut", "Acht", "Judd", "Off the Hook", "Squid Sisters", "Agent 3 (Splatoon 3)")
 
 [sub_resource type="Resource" id="Resource_m2ope"]
 script = ExtResource("2_y4oc8")
 name = "Event"
 corner_1 = Vector2(-44, -92)
 corner_2 = Vector2(-8, -36)
-exhibits = PackedStringArray("Splatfest", "Big Run", "Eggstra Work", "Challenge", "Splatfest Battle", "Tricolor Battle", "Special Splatfest", "Clout", "List of Splatfests in Splatoon", "List of Splatfests in Splatoon 2", "List of Splatfests in Splatoon 3", "Grand Splatlands Bowl", "Great Turf War", "Season", "Inkopolis News", "Chill Season 2022", "Drizzle Season 2022", "Fresh Season 2023", "Sizzle Season 2023", "Art Battle for the Ages", "New Season Challenge", "Oh My Gush", "Swim It to Win It", "Extreme Jump Battle")
+exhibits = PackedStringArray("Splatfest", "Big Run", "Eggstra Work", "Challenge", "Splatfest Battle", "Tricolor Battle", "Special Splatfest", "Chaos vs. Order", "List of Splatfests in Splatoon", "List of Splatfests in Splatoon 2", "List of Splatfests in Splatoon 3", "Grand Splatlands Bowl", "Great Turf War", "Season", "Inkopolis News", "Chill Season 2022", "Drizzle Season 2022", "Fresh Season 2023", "Sizzle Season 2023", "Past vs. Present vs. Future", "New Season Challenge", "Oh My Gush", "Mailbox", "Extreme Jump Battle")
 
 [sub_resource type="Resource" id="Resource_opuc1"]
 script = ExtResource("2_y4oc8")
 name = "Gear"
 corner_1 = Vector2(8, -92)
 corner_2 = Vector2(44, -36)
-exhibits = PackedStringArray("Gear ability", "Gear brand", "Promotional gear", "Adjust Gear", "SquidForce", "Annaki", "Barazushi", "Emberz", "Enperry", "Firefin", "Forge", "Inkline", "Krak-On", "Rockenberg", "Skalop", "Splash Mob", "Takoroka", "Tentatek", "The SQUID GIRL", "Toni Kensa", "Zekko", "Zink", "Z+F", "KOG")
+exhibits = PackedStringArray("Tee", "Gear brand", "Promotional gear", "Adjust Gear", "SquidForce", "Annaki", "Barazushi", "Emberz", "Enperry", "Firefin", "Forge", "Inkline", "Krak-On", "Rockenberg", "Skalop", "Splash Mob", "Takoroka", "Tentatek", "The SQUID GIRL", "Toni Kensa", "Zekko", "Zink", "Z+F", "KOG")
 
 [sub_resource type="Resource" id="Resource_qiy1c"]
 script = ExtResource("2_y4oc8")
 name = "Mode"
 corner_1 = Vector2(-72, 12)
 corner_2 = Vector2(-36, 48)
-exhibits = PackedStringArray("Regular Battle", "Ranked Battle", "Anarchy Battle", "X Battle", "Squad Battle", "League Battle Challenge", "Splatfest Battle", "Tricolor Battle", "Private Battle", "Turf War", "Splat Zones", "Tower Control", "Rainmaker", "Clam Blitz", "Tricolor Turf War", "Salmon Run", "Big Run", "Eggstra Work", "Tableturf Battle", "Octo Valley (mode)", "Octo Canyon (mode)", "Octo Expansion", "Return of the Mammalians", "Side Order" )
+exhibits = PackedStringArray("Credits", "Return of the Mammalians", "Anarchy Battle", "X Battle", "Octo Valley (mode)", "Octo Expansion", "Side Order", "Tricolor Battle", "Private Battle", "Turf War", "Splat Zones", "Tower Control", "Rainmaker", "Clam Blitz", "Octo Canyon (mode)", "Salmon Run", "Big Run", "Eggstra Work", "Tableturf Battle")
 
 [sub_resource type="Resource" id="Resource_l5mfx"]
 script = ExtResource("2_y4oc8")
 name = "Music"
 corner_1 = Vector2(36, 12)
 corner_2 = Vector2(72, 48)
-exhibits = PackedStringArray("Live performances", "Splatune,", "Splatoon Live in Makuhari", "Splatune 2", "Octotune", "Splatoon 2 Live in Makuhari", "Splatune 3", "Ordertune", "Squid Squad", "Chirpy Chips", "Hightide Era", "Turquoise October", "Wet Floor", "Ink Theory", "ω-3", "SashiMori", "C-Side", "Front Roe", "Yoko & the Gold Bazookas")
+exhibits = PackedStringArray("Live performances", "Nintendo Music", "Splatoon Live in Makuhari", "Splatune 2", "Octotune", "Splatune 3", "Ordertune", "Squid Squad", "Chirpy Chips", "Hightide Era", "Turquoise October", "Wet Floor", "Ink Theory", "ω-3", "SashiMori", "C-Side", "Front Roe", "Yoko & the Gold Bazookas")
 
 [sub_resource type="Resource" id="Resource_bycfx"]
 script = ExtResource("2_y4oc8")
 name = "Stage"
 corner_1 = Vector2(-48, 60)
 corner_2 = Vector2(-12, 96)
-exhibits = PackedStringArray("Urchin Underpass", "Walleye Warehouse", "Saltspray Rig", "Arowana Mall", "Blackbelly Skatepark", "Port Mackerel", "Kelp Dome", "Bluefin Depot", "Moray Towers", "Camp Triggerfish", "Flounder Heights", "Hammerhead Bridge", "Museum d'Alfonsino", "Mahi-Mahi Resort", "Piranha Pit", "Ancho-V Games", "The Reef", "Musselforge Fitness", "Starfish Mainstage", "Humpback Pump Track", "Inkblot Art Academy", "Sturgeon Shipyard", "Shifty Station", "Manta Maria", "Snapper Canal", "MakoMart", "Shellendorf Institute", "Goby Arena", "Wahoo World", "New Albacore Hotel", "Skipper Pavilion", "Scorch Gorge", "Eeltail Alley", "Hagglefish Market", "Undertow Spillway", "Mincemeat Metalworks", "Brinewater Springs", "Um'ami Ruins", "Barnacle & Dime", "Crableg Capital", "Shipshape Cargo Co.", "Robo ROM-en", "Marlin Airport", "Lemuria Hub", "Grand Splatlands Bowl")
+exhibits = PackedStringArray("Urchin Underpass", "Arowana Mall", "Blackbelly Skatepark", "Kelp Dome", "Camp Triggerfish", "The Reef", "Starfish Mainstage", "Inkblot Art Academy", "MC.Princess Diaries", "Manta Maria", "MakoMart", "Shellendorf Institute", "Wahoo World", "Skipper Pavilion", "Scorch Gorge", "Um\'ami Ruins", "Robo ROM-en", "Lemuria Hub")
 
 [sub_resource type="Resource" id="Resource_yimja"]
 script = ExtResource("2_y4oc8")
 name = "Weapon"
 corner_1 = Vector2(12, 60)
 corner_2 = Vector2(48, 96)
-exhibits = PackedStringArray("Main weapon", "Sub weapon", "Special weapon", "Shooter", "Roller", "Charger", "Slosher (weapon class)", "Splatling", "Dualie", "Brella", "Blaster (weapon class)", "Brush", "Stringer", "Splatana", "Rare weapon", "Great Octoweapon", "Octobosses", "Rainmaker (weapon)")
+exhibits = PackedStringArray("Main weapon", "Sub weapon", "Special weapon", "Shooter", "Roller", "Charger", "Slosher (weapon class)", "Splatling", "Dualie", "Brella", "Blaster (weapon class)", "Brush", "Stringer", "Splatana", "Rare weapon", "Weapon brand", "Princess Cannon", "Rainmaker (weapon)")
 
 [resource]
 script = ExtResource("1_3ssej")
