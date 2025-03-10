@@ -14,7 +14,7 @@ finish-args:
   - --device=all
 
 modules:
-  - name: MuseumOfAllThings
+  - name: MuseumOfAllThingsInkipedia
     buildsystem: simple
 
     sources:
@@ -22,7 +22,7 @@ modules:
         path: .
 
       - type: file
-        url: https://github.com/m4ym4y/museum-of-all-things/releases/download/v1.0.0/MuseumOfAllThings.pck
+        url: https://github.com/Fxfxfx0/museum-of-all-things-inkipedia/releases/download/v1.0.0/MuseumOfAllThingsInkipedia.pck
         sha256: a800c512f962106432cd1b7fe0dcc885e0cf89dcaea5979fb2b022228fcd16cc
 
     build-commands:
