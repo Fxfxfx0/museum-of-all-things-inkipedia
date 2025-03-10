@@ -88,7 +88,7 @@ dialog_text = "Failed to initialize OpenXR!
 
 Make sure you have a VR headet plugged in and an OpenXR provider configured.
 
-If you didn't mean to use VR, download a non-OpenXR version of the Musem of All Things."
+If you didn't mean to use VR, download a non-OpenXR version of the Musem of All Things Inkipedia."
 dialog_close_on_escape = false
 
 [connection signal="confirmed" from="FailedVrAccept" to="." method="_failed_vr_accept_confirmed"]
