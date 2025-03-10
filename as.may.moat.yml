@@ -1,4 +1,4 @@
-aid: as.may.moat
+id: as.may.moat
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 base: org.godotengine.godot.BaseApp
