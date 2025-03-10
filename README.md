@@ -4,6 +4,8 @@
 
 - [Download releases from Github](https://github.com/Fxfxfx0/museum-of-all-things-inkipedia/releases/)
 
+- [Download on itch](https://fxfxfx0.itch.io/moati)
+
 The Goal of this fork of the Museum of All Things is to make an interactive 3d museum that is generated
 procedurally, using content from Inkipedia, the Splatoon wiki, to fill exhibits. The museum is
 virtually limitless, allowing you to take doors from one exhibit to another,
