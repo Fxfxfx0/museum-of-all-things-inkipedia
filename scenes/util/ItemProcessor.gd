@@ -3,8 +3,8 @@ extends Node
 signal items_complete
 
 var ignore_sections = [
+  "version history",
   "references",
-  "notes",
   "further reading",
   "external links",
   "external link s",
@@ -135,7 +135,7 @@ func _ready():
   #image_field_re.compile("photo")
   tokenizer.compile("[^\\{\\}\\[\\]<>]+|[\\{\\}\\[\\]<>]")
   image_name_re.compile("^([iI]mage:|[fF]ile:)")
-  color_re.compile("\\{\\{Color\\|([^|\\}]+)\\|([^|\\}]+)(?:\\|([^|\\}]+))?\\}\\}")
+  color_re.compile("\\{\\{color\\|([^|\\}]+)\\|([^|\\}]+)(?:\\|([^|\\}]+))?\\}\\}")
   exclude_image_re.compile("\\bicon\\b|\\blogo\\b|blue pencil")
   processor_thread.start(_processor_thread_loop)
 
@@ -333,28 +333,159 @@ func extract_gallery_paths(wikitext: String, title: String) -> Dictionary:
         if key.to_lower() == normalized_title:
             matched_key = key
             break
-    if matched_key == "":
-        return {"gallery_paths": gallery_paths, "caption_paths": caption_paths}
-    
-    var gallerypath_regex = RegEx.new()
-    var pattern = "\\{\\{Gallery\\}\\}"
-    
-    if gallerypath_regex.compile(pattern) != OK:
-        return {"gallery_paths": gallery_paths, "caption_paths": caption_paths}
-    
-    var results = gallerypath_regex.search_all(wikitext)
-    
-    if results.size() > 0:
-        var predefined_links = gallery_data[title]["gallery_links"]
-        var predefined_links2 = gallery_data[title]["caption_links"]
-        
-        for i in range(predefined_links.size()):
-            if not predefined_links[i].begins_with("File:"):
-                predefined_links[i] = "File:" + predefined_links[i]
-        gallery_paths.append_array(predefined_links)
-        caption_paths.append_array(predefined_links2)
-    return {"gallery_paths": gallery_paths, "caption_paths": caption_paths}
+    if matched_key != "":
+        var gallerypath_regex = RegEx.new()
+        var gallery_pattern = "\\{\\{Gallery\\}\\}"
+        if gallerypath_regex.compile(gallery_pattern) == OK:
+            var gallery_results = gallerypath_regex.search_all(wikitext)
+            if gallery_results.size() > 0:
+                var predefined_links = gallery_data[matched_key]["gallery_links"]
+                var predefined_captions = gallery_data[matched_key]["caption_links"]
+                
+                for i in range(predefined_links.size()):
+                    if not predefined_links[i].begins_with("File:"):
+                        predefined_links[i] = "File:" + predefined_links[i]
+                gallery_paths.append_array(predefined_links)
+                caption_paths.append_array(predefined_captions)
 
+    var infobox_regex = RegEx.new()
+    var infobox_pattern = "\\{\\{Infobox/([^|\\n]+)(?:[^{}]*?)\\|\\s*game\\s*=\\s*([^|\\n]+)(?:[^{}]*?)\\|\\s*category\\s*=\\s*([^|\\n]+)?"
+    if infobox_regex.compile(infobox_pattern) == OK:
+        var infobox_results = infobox_regex.search_all(wikitext)
+        if infobox_results.size() > 0:
+            for result in infobox_results:
+                var infobox_term = result.get_string(1)
+                var game_param = result.get_string(2)
+                var category_param = result.get_string(3)
+            
+                var prefix = "S"
+                if game_param.find("2") != -1:
+                    prefix = "S2"
+                elif game_param.find("3") != -1:
+                    prefix = "S3"
+                elif game_param.find("E") != -1:
+                    prefix = "OE"
+                    
+                var prefix2 = ""
+                if category_param.find("Headgear") != -1:
+                    prefix2 = " Headgear"
+                elif category_param.find("Sub") != -1:
+                    prefix2 = "Sub"
+                elif category_param.find("Special") != -1:
+                    prefix2 = "Special"
+                elif category_param.find("Clothing") != -1:
+                    prefix2 = "Clothing"
+                elif category_param.find("Shoes") != -1:
+                    prefix2 = "Shoes"
+            
+                var filename: String = ""
+                match infobox_term:
+                    "Weapon":
+                        filename = "File:" + prefix + " Weapon " + prefix2 + " " + title + ".png"
+                    "Gear":
+                        filename = "File:" + prefix + " Gear " + prefix2 + " " +  title + ".png"
+            
+                gallery_paths.append(filename)
+                
+    var infobox2_regex = RegEx.new()
+    var infobox2_pattern = "\\{\\{Infobox/([^|\\n]+)(?:[^{}]*?)\\|\\s*image\\s*=\\s*([^|\\n]+)"
+    if infobox2_regex.compile(infobox2_pattern) == OK:
+        var infobox2_results = infobox2_regex.search_all(wikitext)
+        if infobox2_results.size() > 0:
+            for result in infobox2_results:
+                var infobox2_term = result.get_string(1)
+                var image_param = result.get_string(2)
+                
+                var filename2: String = ""
+                match infobox2_term:
+                    "Character":
+                        filename2 = "File:" + image_param
+                    "Floor/SO":
+                        filename2 = "File:" + image_param
+                    "Game":
+                        filename2 = "File:" + image_param
+                    "Mission":
+                        filename2 = "File:" + image_param                  
+                    "Mission/OctoExpansion":
+                        filename2 = "File:" + image_param
+                    "Mode":
+                        filename2 = "File:" + image_param
+                    "Music":
+                        filename2 = "File:" + image_param
+                    "Person":
+                        filename2 = "File:" + image_param
+                    "Version":
+                        filename2 = "File:" + image_param
+                                     
+                gallery_paths.append(filename2)
+
+    var infobox3_regex = RegEx.new()
+    var infobox3_pattern = "\\{\\{Infobox/Brand(?:[^{}]*?)\\|\\s*imagesource\\s*=\\s*([^|\\n]+)"
+    if infobox3_regex.compile(infobox3_pattern) == OK:
+        var infobox3_results = infobox3_regex.search_all(wikitext)
+        if infobox3_results.size() > 0:
+            for result in infobox3_results:
+                var infobox3_term = result.get_string(1)
+            
+                var prefix3 = "S"
+                if infobox3_term.find("2") != -1:
+                    prefix3 = "S2"
+                elif infobox3_term.find("3") != -1:
+                    prefix3 = "S3"
+            
+                var filename3: String = "File:" + prefix3 + " Brand " +  title + ".png"
+                
+                gallery_paths.append(filename3)
+                
+    var infobox4_regex = RegEx.new()
+    var infobox4_pattern = "\\{\\{Infobox/([^|\\n]+)(?:[^{}]*?)\\|\\s*game\\s*=\\s*([^|\\n]+)"
+    if infobox4_regex.compile(infobox4_pattern) == OK:
+        var infobox4_results = infobox4_regex.search_all(wikitext)
+        if infobox4_results.size() > 0:
+            for result in infobox4_results:
+                var infobox4_term = result.get_string(1)
+                var game4_param = result.get_string(2)
+            
+                var prefix4 = "S"
+                if game4_param.find("2") != -1:
+                    prefix4 = "S2"
+                elif game4_param.find("3") != -1:
+                    prefix4 = "S3"
+                elif game4_param.find("E") != -1:
+                    prefix4 = "OE"
+                
+                var filename4: String = ""
+                match infobox4_term:
+                    "Stage":
+                        filename4 = "File:" + prefix4 + " Stage " + title + ".png"
+                    "Mission/OctoExpansion":
+                        filename4 = "File:" + prefix4 + " Deepsea Metro " + title + ".png"   
+                    "Ability":
+                        filename4 = "File:" + prefix4 + " Ability " +  title + ".png"
+             
+                gallery_paths.append(filename4)
+                
+    var infobox5_regex = RegEx.new()
+    var infobox5_pattern = "\\{\\{Infobox/Colorchip(?:[^{}]*?)\\|\\s*tone\\s*=\\s*([^|\\n]+)"
+    if infobox5_regex.compile(infobox5_pattern) == OK:
+        var infobox5_results = infobox5_regex.search_all(wikitext)
+        if infobox5_results.size() > 0:
+            for result in infobox5_results:
+                var infobox5_term = result.get_string(1)
+                
+                for i in range(1, 4):
+                  var filename5: String = "File:SO Icon color chip " + infobox5_term + " " + str(i) + ".png"
+                
+                  gallery_paths.append(filename5)
+    
+    var fallback_paths = []
+    for file in gallery_paths:
+      if file.ends_with(".png"):
+        fallback_paths.append(file.replace(".png", ".jpg"))
+
+    gallery_paths += fallback_paths
+    
+    return {"gallery_paths": gallery_paths, "caption_paths": caption_paths}
 
 func _clean_section(s):
   return s.replace("=", "").strip_edges()
@@ -1264,6 +1395,7 @@ func create_items(title, result, prev_title=""):
 func _create_items(title, result, prev_title):
   var text_items = []
   var image_items = []
+  var seen_targets = {}
   var doors = []
   var doors_used = {}
   var material = Util.gen_item_material(title)
@@ -1278,7 +1410,8 @@ func _create_items(title, result, prev_title):
     
     for file_link in gallery_files:
       var target = _to_link_case(file_link)
-      if IMAGE_REGEX.search(target):
+      if IMAGE_REGEX.search(target) and not seen_targets.has(target):
+        seen_targets[target] = true
         image_items.append({
           "type": "image",
           "material": material,
@@ -1293,7 +1426,8 @@ func _create_items(title, result, prev_title):
     
     for file_link in gallery_paths:
       var target = _to_link_case(file_link)
-      if IMAGE_REGEX.search(target):
+      if IMAGE_REGEX.search(target) and not seen_targets.has(target):
+        seen_targets[target] = true
         image_items.append({
           "type": "image",
           "material": material,
@@ -1301,7 +1435,7 @@ func _create_items(title, result, prev_title):
           "title": target,
           "text": _clean_filename(target),
         })
-        
+   
     var gear_data = extract_gear_links(wikitext)
     var gear_links = gear_data["gear_links"]
     
@@ -1347,7 +1481,8 @@ func _create_items(title, result, prev_title):
       var target = _to_link_case(image_name_re.sub(link.get_slice("|", 0), "File:"))
       var caption = alt_re.search(link)
 
-      if target.begins_with("File:") and IMAGE_REGEX.search(target):
+      if target.begins_with("File:") and IMAGE_REGEX.search(target) and not seen_targets.has(target):
+        seen_targets[target] = true
         image_items.append({
           "type": "image",
           "material": material,
@@ -1367,18 +1502,19 @@ func _create_items(title, result, prev_title):
               continue
             if not image_title.begins_with("File:"):
               image_title = "File:" + image_title
-            image_items.append({
-              "type": "image",
-              "material": material,
-              "plate": plate,
-              "title": image_title,
-              "text": caption.get_string(1) if caption else _clean_filename(image_title),
-            })
+            if not seen_targets.has(image_title):
+              seen_targets[image_title] = true
+              image_items.append({
+                "type": "image",
+                "material": material,
+                "plate": plate,
+                "title": image_title,
+                "text": caption.get_string(1) if caption else _clean_filename(image_title),
+              })
 
       elif type == "link" and target and target.find(":") < 0:
-    # Skip if the target ends with a common image extension
         if target.to_lower().ends_with(".jpg") or target.to_lower().ends_with(".png") or target.to_lower().ends_with(".gif") or target.to_lower().ends_with(".mp4") or target.to_lower().ends_with(".jpeg") or target.to_lower().ends_with(".svg") or target.to_lower().ends_with(".webp") or target.to_lower().ends_with("=") or target.to_lower().ends_with(".") or target.to_lower().ends_with("'"):
-            continue
+          continue
 
         var door = _to_link_case(target.get_slice("#", 0))
         if not doors_used.has(door) and door != title and door != prev_title and len(door) > 0:
