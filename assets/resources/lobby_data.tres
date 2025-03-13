@@ -5,59 +5,59 @@
 
 [sub_resource type="Resource" id="Resource_pgwi2"]
 script = ExtResource("2_y4oc8")
-name = "Technology"
+name = "Location"
 corner_1 = Vector2(-68, -44)
 corner_2 = Vector2(-32, -8)
-exhibits = PackedStringArray("Control car", "Minox", "Transistor", "Pottery", "Godot (game engine)", "Pasteurization", "Nuclear weapons testing", "Adhesive", "Aqueduct (water supply)", "3D rendering", "Airplane", "Simple machine", "Printing press", "Birth control", "Microscopy", "Video game console", "Trebuchet", "Animal husbandry", "Oldowan")
+exhibits = PackedStringArray("Inkadia", "Inkopolis", "Octo Valley (location)", "Octo Canyon (location)", "Deepsea Metro", "Spawning Grounds", "The Splatlands", "Alterna", "Order Sector", "Mount Nantai", "Splatsville", "Deca Tower", "Train station", "Ammo Knights", "Booyah Base", "Galleria", "The Shoal", "Memverse")
 
 [sub_resource type="Resource" id="Resource_ooopd"]
 script = ExtResource("2_y4oc8")
-name = "Culture"
+name = "Character"
 corner_1 = Vector2(32, -44)
 corner_2 = Vector2(68, -8)
-exhibits = PackedStringArray("Clown", "Dragon", "Convenience store", "High five", "Goncharov (meme)", "Coffee", "Soup", "The Backrooms", "Tarot", "K-pop", "Go (game)", "Hinduism", "Dandy", "Golem", "Sea Shanty", "Advertising", "Flood Myth", "Monk")
+exhibits = PackedStringArray("Cuttlefish", "Agent 4", "Agent 8", "Agent 3 (Splatoon)", "Callie", "Marie", "Pearl", "Marina", "Shiver", "Frye", "Big Man", "DJ Octavio", "Deep Cut", "Acht", "Judd", "Off the Hook", "Squid Sisters", "Agent 3 (Splatoon 3)")
 
 [sub_resource type="Resource" id="Resource_m2ope"]
 script = ExtResource("2_y4oc8")
-name = "Science"
+name = "Event"
 corner_1 = Vector2(-44, -92)
 corner_2 = Vector2(-8, -36)
-exhibits = PackedStringArray("Fungus", "Dinosaur", "Marine Life", "Earth", "Arabia quadrangle", "Rat", "Shrimp", "Breadfruit", "Data and information visualization", "Gold", "Adansonia", "Human", "Pendulum", "Sexual dimorphism", "Light", "Cheese", "Brassica oleracea", "Wetlands", "Slow loris", "Butterfly", "Jupiter", "Soil", "Fractal", "Eye")
+exhibits = PackedStringArray("Splatfest", "Big Run", "Eggstra Work", "Challenge", "Splatfest Battle", "Tricolor Battle", "Special Splatfest", "Chaos vs. Order", "List of Splatfests in Splatoon", "List of Splatfests in Splatoon 2", "List of Splatfests in Splatoon 3", "Grand Splatlands Bowl", "Great Turf War", "Season", "Inkopolis News", "Chill Season 2022", "Drizzle Season 2022", "Fresh Season 2023", "Sizzle Season 2023", "Past vs. Present vs. Future", "New Season Challenge", "Oh My Gush", "Mailbox", "Extreme Jump Battle")
 
 [sub_resource type="Resource" id="Resource_opuc1"]
 script = ExtResource("2_y4oc8")
-name = "Geography"
+name = "Gear"
 corner_1 = Vector2(8, -92)
 corner_2 = Vector2(44, -36)
-exhibits = PackedStringArray("USA", "Antartica", "Patagonia", "Tibet", "Persepolis", "Petra", "Taipei 101", "Breast-shaped hill", "Architecture of Liverpool", "Chongqing", "Pitcairn Islands", "Mariana Trench", "Trans-Siberian Railway", "Lancaster, Ohio", "Lake Chad", "Senegal", "Bora Bora", "Landes de Gascogne", "Mount Kilimanjaro", "Canberra", "Amazon rainforest", "River Wharfe", "Uruk", "Black Stone")
+exhibits = PackedStringArray("Tee", "Gear brand", "Promotional gear", "Adjust Gear", "SquidForce", "Annaki", "Barazushi", "Emberz", "Enperry", "Firefin", "Forge", "Inkline", "Krak-On", "Rockenberg", "Skalop", "Splash Mob", "Takoroka", "Tentatek", "The SQUID GIRL", "Toni Kensa", "Zekko", "Zink", "Z+F", "KOG")
 
 [sub_resource type="Resource" id="Resource_qiy1c"]
 script = ExtResource("2_y4oc8")
-name = "Art"
+name = "Mode"
 corner_1 = Vector2(-72, 12)
 corner_2 = Vector2(-36, 48)
-exhibits = PackedStringArray("Baroque painting", "Arts in the Philippines", "Armenian Architecture", "Pablo Picasso", "Louvre", "Joan Miró", "Ai Weiwei", "Frida Kahlo", "Käthe Kollwitz", "Frank Lloyd Wright", "Edgar Degas", "Cave painting", "Michelangelo", "Francisco Goya", "Fauvism", "Graffiti", "Ancient Greek sculpture", "M. C. Escher", "Georges Seurat")
+exhibits = PackedStringArray("Credits", "Return of the Mammalians", "Anarchy Battle", "X Battle", "Octo Valley (mode)", "Octo Expansion", "Side Order", "Tricolor Battle", "Private Battle", "Turf War", "Splat Zones", "Tower Control", "Rainmaker", "Clam Blitz", "Octo Canyon (mode)", "Salmon Run", "Big Run", "Eggstra Work", "Tableturf Battle")
 
 [sub_resource type="Resource" id="Resource_l5mfx"]
 script = ExtResource("2_y4oc8")
-name = "People"
+name = "Music"
 corner_1 = Vector2(36, 12)
 corner_2 = Vector2(72, 48)
-exhibits = PackedStringArray("List of Polish people", "Albert Einstein", "Freddy Mercury", "Kobe Bryant", "Genghis Khan", "Rasputin", "Public Universal Friend", "Tupac Shakur", "Luigi Mangione", "William Shakespeare", "Linus Pauling", "Danny Devito", "J. R. R. Tolkien", "Mary Shelley", "Alexandria Ocasio-Cortez", "Ibn Battuta", "Martin Luther", "Martin Luther King Jr.")
+exhibits = PackedStringArray("Live performances", "Nintendo Music", "Splatoon Live in Makuhari", "Splatune 2", "Octotune", "Splatune 3", "Ordertune", "Squid Squad", "Chirpy Chips", "Hightide Era", "Turquoise October", "Wet Floor", "Ink Theory", "ω-3", "SashiMori", "C-Side", "Front Roe", "Yoko & the Gold Bazookas")
 
 [sub_resource type="Resource" id="Resource_bycfx"]
 script = ExtResource("2_y4oc8")
-name = "History"
+name = "Stage"
 corner_1 = Vector2(-48, 60)
 corner_2 = Vector2(-12, 96)
-exhibits = PackedStringArray("History of Germany", "Chernobyl disaster", "Titanic", "Counterculture of the 1960s", "Unethical human experimentation in the United States", "COVID-19 pandemic", "Central Intelligence Agency", "Islamic Golden Age", "Moon landing", "1906 San Francisco earthquake", "Hannibal\'s crossing of the Alps", "Drake-Kendrick Lamar feud", "History of photography", "Dave Matthews Band bus incident", "Blood libel", "Oyo Empire", "Piracy", "2019-2020 Hong Kong protests")
+exhibits = PackedStringArray("Urchin Underpass", "Arowana Mall", "Blackbelly Skatepark", "Kelp Dome", "Camp Triggerfish", "The Reef", "Starfish Mainstage", "Inkblot Art Academy", "MC.Princess Diaries", "Manta Maria", "MakoMart", "Shellendorf Institute", "Wahoo World", "Skipper Pavilion", "Scorch Gorge", "Um\'ami Ruins", "Robo ROM-en", "Lemuria Hub")
 
 [sub_resource type="Resource" id="Resource_yimja"]
 script = ExtResource("2_y4oc8")
-name = "Media"
+name = "Weapon"
 corner_1 = Vector2(12, 60)
 corner_2 = Vector2(48, 96)
-exhibits = PackedStringArray("Bible", "The Beatles", "The Matrix", "Odyssey", "Gilgamesh", "Waiting for Godot", "Homestuck", "Star Trek", "Barbie (film)", "Neon Genesis Evangelion", "Hamlet", "Catan", "Twitter", "Vogue (magazine)", "Steamboat Willie", "The Count of Monte Cristo", "Wikipedia", "Minecraft")
+exhibits = PackedStringArray("Main weapon", "Sub weapon", "Special weapon", "Shooter", "Roller", "Charger", "Slosher (weapon class)", "Splatling", "Dualie", "Brella", "Blaster (weapon class)", "Brush", "Stringer", "Splatana", "Rare weapon", "Weapon brand", "Princess Cannon", "Rainmaker (weapon)")
 
 [resource]
 script = ExtResource("1_3ssej")
@@ -65,13 +65,13 @@ introduction_text = "[center][color=black]
 [img=500]res://assets/logo/moat_logo_large.png[/img]
 
 [font_size=14][fill]
-Welcome to the Museum of All Things! All guests are welcome here, whether you're manifesting in this space through a 2 dimensional window or via Virtual Reality. This museum is different from any you've visited in the physical world, so it may take a moment to get your bearings.
+Welcome to the Museum of All Things Inkipedia! All guests are welcome here, whether you're manifesting in this space through a 2 dimensional window or via Virtual Reality. This museum is different from any you've visited in the physical world, so it may take a moment to get your bearings.
 
 Right now you are in the museum's lobby, tailored to give you a pleasant starting point on your visit. If you ever wish to return here, you may open your museum menu (via \"Escape,\" \"Start,\" or by hitting \"Y\" on your right-hand controller in Virtual Reality) and select \"Return to Lobby.\"
 
-The lobby is divided into areas by subject, which are marked by signs and indicated on the maps in the entry hall. In each of these areas, you will find many hallways into a range of fascinating exhibits. These exhibits are made possible by pulling images and textual data from Wikipedia and Wikimedia commons. Any topic with a Wikipedia page can also be accessed as an exhibit in this museum.
+The lobby is divided into areas by subject, which are marked by signs and indicated on the maps in the entry hall. In each of these areas, you will find many hallways into a range of fascinating exhibits. These exhibits are made possible by pulling images and textual data from Inkipedia, the Splatoon wiki. Any topic with an Inkipedia page can also be accessed as an exhibit in this museum.
 
-Furthermore, every exhibit contains many hallways connecting it to other exhibits. These hallways are determined based on the links in the current exhibit's Wikipedia article. You can move from exhibit to exhibit endlessly, following your curiosity.
+Furthermore, every exhibit contains many hallways connecting it to other exhibits. These hallways are determined based on the links in the current exhibit's Inkipedia article. You can move from exhibit to exhibit endlessly, following your curiosity.
 
 If you prefer to go straight to a particular subject, you may access the search terminal, at the end of the entry hall directly behind you. Simply enter your topic of interest into the terminal's interface, and it will create a hallway for you to walk straight there.
 
