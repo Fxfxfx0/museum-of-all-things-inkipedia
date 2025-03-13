@@ -17,7 +17,6 @@ func _ready() -> void:
   multimesh.instance_count = railing_length + 1
   multimesh.mesh = pole_mesh
   multimesh_instance.multimesh = multimesh
-  add_child(multimesh_instance)
 
   var collision_shape = BoxShape3D.new()
   collision_shape.size = Vector3(railing_length + 0.1, 1.1, 0.1)
@@ -31,3 +30,5 @@ func _ready() -> void:
     transform.origin = Vector3(x_offset, 0, 0)
 
     multimesh.set_instance_transform(i, transform)
+
+  add_child(multimesh_instance)
