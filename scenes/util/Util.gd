@@ -36,6 +36,12 @@ func clear_listeners(n, sig_name):
 func is_xr():
   return ProjectSettings.get_setting_with_override("xr/openxr/enabled")
 
+func is_web():
+  return OS.get_name() == "Web"
+ 
+func is_using_threads():
+  return not is_web()
+
 func is_compatibility_renderer():
   return RenderingServer.get_current_rendering_method() == 'gl_compatibility'
 
