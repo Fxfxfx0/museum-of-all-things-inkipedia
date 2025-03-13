@@ -366,7 +366,7 @@ func extract_gallery_paths(wikitext: String, title: String) -> Dictionary:
                 elif game_param.find("E") != -1:
                     prefix = "OE"
                     
-                var prefix2 = ""
+                var prefix2 = "Main"
                 if category_param.find("Headgear") != -1:
                     prefix2 = " Headgear"
                 elif category_param.find("Sub") != -1:
