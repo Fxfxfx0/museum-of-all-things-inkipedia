@@ -82,7 +82,7 @@ func _set_image(data):
   var label = $Label
   if is_instance_valid(label) and data.has("license_short_name") and data.has("artist"):
     text += "\n"
-    text += data.license_short_name + " " + Util.strip_html(data.artist)
+    text += "Fair use, " + data.license_short_name + "\n" + Util.strip_html(data.artist)
     label.text = text
     call_deferred("_update_text_plate")
 
