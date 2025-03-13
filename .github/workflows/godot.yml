@@ -7,8 +7,8 @@ on:
       - released
 
 env:
-  GODOT_VERSION: 4.3
-  EXPORT_NAME: MuseumOfAllThingsInkipedia
+  GODOT_VERSION: 4.4
+  EXPORT_NAME: MuseumOfAllThings
 
 jobs:
   export:
@@ -47,6 +47,13 @@ jobs:
 
           # Tell Godot Engine to be self-contained
           touch ._sc_
+
+      - name: Import project
+        run: |
+          # Run this twice, because there's sometimes import issues with importing GDExtensions or addons on the first try.
+          # Also, there have been some resource imported deadlocks lately, so we only let it run for 60 seconds max.
+          timeout 60 ./tools/godot --import --headless --verbose || true
+          timeout 60 ./tools/godot --import --headless --verbose || true
 
       - name: Ensure path exists
         run: mkdir -p dist
