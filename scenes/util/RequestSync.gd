@@ -53,3 +53,19 @@ func request(url, headers=COMMON_HEADERS, verbose=true):
   var response_code = http_client.get_response_code()
   var response_headers = http_client.get_response_headers()
   return [OK, response_code, response_headers, response]
+
+func request_async(url, headers=COMMON_HEADERS, verbose=true):
+  if OS.is_debug_build() and verbose:
+    print("fetching url ", url)
+
+  var req = HTTPRequest.new()
+  add_child(req)
+  req.use_threads = false
+  req.request_completed.connect(_http_request_cleanup.bind(req))
+
+  req.request(url, headers)
+
+  return req.request_completed
+
+func _http_request_cleanup(result, response_code, headers, body, req):
+  req.queue_free()
