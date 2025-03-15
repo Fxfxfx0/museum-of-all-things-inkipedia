@@ -13,7 +13,6 @@ var multimesh_instance: MultiMeshInstance3D
 
 func _ready() -> void:
   multimesh_instance = MultiMeshInstance3D.new()
-  multimesh_instance.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
   mesh_instance.surface_set_material(0, material_override)
   var multimesh = MultiMesh.new()
   multimesh.transform_format = MultiMesh.TRANSFORM_3D
