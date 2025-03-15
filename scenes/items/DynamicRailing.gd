@@ -11,12 +11,14 @@ var multimesh_instance: MultiMeshInstance3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
   multimesh_instance = MultiMeshInstance3D.new()
+  multimesh_instance.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
   pole_mesh.surface_set_material(0, material_black)
   var multimesh = MultiMesh.new()
   multimesh.transform_format = MultiMesh.TRANSFORM_3D
   multimesh.instance_count = railing_length + 1
   multimesh.mesh = pole_mesh
   multimesh_instance.multimesh = multimesh
+  add_child(multimesh_instance)
 
   var collision_shape = BoxShape3D.new()
   collision_shape.size = Vector3(railing_length + 0.1, 1.1, 0.1)
@@ -30,5 +32,3 @@ func _ready() -> void:
     transform.origin = Vector3(x_offset, 0, 0)
 
     multimesh.set_instance_transform(i, transform)
-
-  add_child(multimesh_instance)
