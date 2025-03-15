@@ -7,7 +7,7 @@ signal loaded_image(url: String, image: Image)
 @onready var _xr = Util.is_xr()
 
 var TEXTURE_QUEUE = "Textures"
-var TEXTURE_FRAME_PACING = 18
+var TEXTURE_FRAME_PACING = 6
 var _fs_lock = Mutex.new()
 var _texture_load_thread_pool_size = 5
 var _texture_load_thread_pool = []
@@ -48,24 +48,56 @@ func _texture_load_item():
   if not item:
     return
 
-  var data = _read_url(item.url)
+  match item.type:
+    "request":
+        var data = _read_url(item.url)
 
-  if data:
-    _create_and_emit_image(item.url, data, item.ctx)
-  else:
-    var request_url = item.url
-    request_url += ('&' if '?' in request_url else '?') + "origin=*"
-    var result
-    if Util.is_using_threads():
-      result = RequestSync.request(request_url, COMMON_HEADERS)
-    else:
-      result = await RequestSync.request_async(request_url, COMMON_HEADERS)
-    if result[0] != OK:
-      push_error("failed to fetch image ", result[1], " ", item.url)
-    else:
-      data = result[3]
-      _write_url(item.url, data)
-      _create_and_emit_image(item.url, data, item.ctx)
+        if data:
+          _load_image(item.url, data, item.ctx)
+        else:
+          var request_url = item.url
+          request_url += ('&' if '?' in request_url else '?') + "origin=*"
+          var result
+          if Util.is_using_threads():
+            result = RequestSync.request(request_url, COMMON_HEADERS)
+          else:
+            result = await RequestSync.request_async(request_url, COMMON_HEADERS)
+          if result[0] != OK:
+            push_error("failed to fetch image ", result[1], " ", item.url)
+          else:
+            data = result[3]
+            _write_url(item.url, data)
+            _load_image(item.url, data, item.ctx)
+
+    "load":
+      var data = item.data
+
+      var fmt = _detect_image_type(data)
+      var image = Image.new()
+      if fmt == "PNG":
+        image.load_png_from_buffer(data)
+      elif fmt == "JPEG":
+        image.load_jpg_from_buffer(data)
+      elif fmt == "SVG":
+        image.load_svg_from_buffer(data)
+      elif fmt == "WebP":
+        image.load_webp_from_buffer(data)
+      else:
+        return
+
+      if image.get_width() == 0:
+        return
+
+      _generate_mipmaps(item.url, image, item.ctx)
+
+    "generate_mipmaps":
+      var image = item.image
+      image.generate_mipmaps()
+      _create_and_emit_texture(item.url, image, item.ctx)
+
+    "create_and_emit_texture":
+      var texture = ImageTexture.create_from_image(item.image)
+      _emit_image(item.url, texture, item.ctx)
 
 func _get_hash(input: String) -> String:
   var context = HashingContext.new()
@@ -158,28 +190,6 @@ func save_json_data(url: String, json: Dictionary):
   var data = JSON.stringify(json).to_utf8_buffer()
   _write_url(url, data)
 
-func _create_and_emit_image(url, data, ctx):
-  var fmt = _detect_image_type(data)
-  var image = Image.new()
-  if fmt == "PNG":
-    image.load_png_from_buffer(data)
-  elif fmt == "JPEG":
-    image.load_jpg_from_buffer(data)
-  elif fmt == "SVG":
-    image.load_svg_from_buffer(data)
-  elif fmt == "WebP":
-    image.load_webp_from_buffer(data)
-  else:
-    return null
-
-  if image.get_width() == 0:
-    return null
-
-  image.generate_mipmaps()
-
-  var texture = ImageTexture.create_from_image(image)
-  _emit_image(url, texture, ctx)
-
 func _emit_image(url, texture, ctx):
   if texture == null:
     return
@@ -187,6 +197,31 @@ func _emit_image(url, texture, ctx):
 
 func request_image(url, ctx=null):
   WorkQueue.add_item(TEXTURE_QUEUE, {
+    "type": "request",
     "url": url,
     "ctx": ctx
   })
+
+func _load_image(url, data, ctx=null):
+  WorkQueue.add_item(TEXTURE_QUEUE, {
+    "type": "load",
+    "url": url,
+    "data": data,
+    "ctx": ctx,
+  }, null, true)
+
+func _generate_mipmaps(url, image, ctx=null):
+  WorkQueue.add_item(TEXTURE_QUEUE, {
+    "type": "generate_mipmaps",
+    "url": url,
+    "image": image,
+    "ctx": ctx,
+  }, null, true)
+
+func _create_and_emit_texture(url, image, ctx=null):
+  WorkQueue.add_item(TEXTURE_QUEUE, {
+    "type": "create_and_emit_texture",
+    "url": url,
+    "image": image,
+    "ctx": ctx,
+  }, null, true)
