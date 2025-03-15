@@ -13,12 +13,14 @@ var multimesh_instance: MultiMeshInstance3D
 
 func _ready() -> void:
   multimesh_instance = MultiMeshInstance3D.new()
+  multimesh_instance.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
   mesh_instance.surface_set_material(0, material_override)
   var multimesh = MultiMesh.new()
   multimesh.transform_format = MultiMesh.TRANSFORM_3D
   multimesh.instance_count = instance_count
   multimesh.mesh = mesh_instance
   multimesh_instance.multimesh = multimesh
+  add_child(multimesh_instance)
 
   var random = RandomNumberGenerator.new()
   random.randomize()
@@ -50,5 +52,3 @@ func _ready() -> void:
     transform = transform.scaled(Vector3.ONE * scale_factor)
     transform.origin *= 1 / scale_factor
     multimesh.set_instance_transform(i, transform)
-
-  add_child(multimesh_instance)
