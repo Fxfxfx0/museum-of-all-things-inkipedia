@@ -40,7 +40,7 @@ func is_web():
   return OS.get_name() == "Web"
  
 func is_using_threads():
-  return not is_web()
+  return OS.has_feature("threads")
 
 func is_compatibility_renderer():
   return RenderingServer.get_current_rendering_method() == 'gl_compatibility'
